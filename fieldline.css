@@ -1,0 +1,19 @@
+html body { width: 100%; overflow-x: clip; }
+body > main { max-width: 560px; margin-inline: auto; }
+body > header > div, body > nav > div { max-width: 560px; margin-inline: auto; }
+[data-fieldline-pin] { cursor: pointer; }
+[data-fieldline-pin][aria-pressed="true"] { outline: 2px solid #b5f340; outline-offset: 3px; }
+button:focus-visible, a:focus-visible, [data-fieldline-pin]:focus-visible { outline: 2px solid #c6f454; outline-offset: 3px; }
+[hidden] { display: none !important; }
+.fieldline-toast { position: fixed; z-index: 100; left: 50%; top: 76px; transform: translateX(-50%); max-width: calc(100% - 24px); width: max-content; border: 1px solid #465248; border-radius: 14px; background: #17231c; color: #f3f8ed; box-shadow: 0 10px 28px #0008; padding: 10px 16px; font-size: 14px; }
+.fieldline-card, .fieldline-dialog { color: #eff7eb; background: #18231f; border: 1px solid #394840; border-radius: 16px; padding: 16px; }
+.fieldline-card { margin-top: 16px; display: grid; gap: 12px; }
+.fieldline-dialog { width: min(420px, calc(100% - 28px)); }
+.fieldline-dialog::backdrop { background: #0009; }
+.fieldline-dialog form { display: grid; gap: 12px; }
+.fieldline-card label, .fieldline-dialog label { display: grid; gap: 5px; font-size: 14px; }
+.fieldline-card input, .fieldline-card select, .fieldline-dialog input, .fieldline-dialog select, .fieldline-dialog textarea { width: 100%; border-radius: 8px; border: 1px solid #4d6155; background: #101915; color: #eff7eb; padding: 8px; }
+.fieldline-card button, .fieldline-dialog button { border-radius: 8px; padding: 7px 12px; background: #c6f454; color: #14200a; font-weight: 700; }
+.fieldline-dialog button[value="cancel"], #roster-list button { background: #303d35; color: #eff7eb; }
+.fieldline-dialog menu { display: flex; gap: 8px; justify-content: end; }
+#roster-list li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid #394840; }

@@ -1,0 +1,310 @@
+<!DOCTYPE html><html class="dark" lang="ko"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"><meta content="mobile_tab" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><title>Fieldline | 농구 라인업</title><link rel="stylesheet" href="./basketball.css"><link rel="stylesheet" href="./fieldline.css"><script src="./fieldline.js" defer></script></head><body data-sport="basketball" class="bg-surface text-on-surface font-body-md text-body-md flex flex-col min-h-screen select-none antialiased"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.4)]"><div class="h-16 px-margin-mobile flex items-center justify-between"><div class="flex items-center gap-2.5"><div class="w-9 h-9 rounded-xl bg-surface-container-high flex items-center justify-center text-xl shrink-0">🏀</div><div class="flex flex-col justify-center"><div class="flex items-center gap-1.5"><h1 class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-tight">라인업 생성</h1><span class="px-1.5 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm leading-none">v1.2</span></div><span class="font-label-sm text-label-sm text-on-surface-variant truncate leading-tight">Basketball Lineup</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="초기화" class="w-11 h-11 flex items-center justify-center rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">restart_alt</span></button><button aria-label="공유하기" class="w-11 h-11 flex items-center justify-center rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">share</span></button></div></div></header><main class="flex flex-col relative w-full pt-16 pb-28 bg-surface px-margin-mobile"><div class="flex flex-col w-full pb-6 space-y-4">
+<!-- Top Matchup Summary Card -->
+<section class="w-full bg-surface-container rounded-xl p-3 shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-hardwood-amber animate-pulse"></span>
+<span class="font-headline-sm text-headline-sm text-on-surface">슬램덩크</span>
+<span class="px-2 py-0.5 rounded-full bg-hardwood-amber/20 text-hardwood-amber font-label-sm text-label-sm">3쿼터 선발</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-hardwood-amber">stadium</span>
+<span>실내체육관 A코트</span>
+</div>
+</div>
+<div class="mt-2.5 flex items-center justify-between pt-2 bg-surface-container-high/60 rounded-lg px-2.5 py-1.5">
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-surface-container-lowest text-secondary">전술 포메이션</span>
+<span class="font-body-sm text-body-sm text-tactical-white">1-2-2 모션 오펜스 &amp; 박스원 수비</span>
+</div>
+<button class="flex items-center gap-1 text-primary font-label-sm text-label-sm hover:underline" id="toggleStrategyBtn" type="button">
+<span>역할 가이드</span>
+<span class="material-symbols-outlined text-[14px]">tune</span>
+</button>
+</div>
+</section>
+<!-- Hardwood Court Tactile Visualizer (PRD 4:5 Tactical Ratio) -->
+<section class="w-full relative bg-surface-container-lowest rounded-xl overflow-hidden shadow-xl">
+<!-- Header Controls Overlay -->
+<div class="absolute top-2.5 inset-x-2.5 z-20 flex items-center justify-between pointer-events-none">
+<div class="pointer-events-auto flex items-center gap-1 bg-surface-container/90 backdrop-blur-md px-2 py-1 rounded-lg">
+<span class="w-2 h-2 rounded-full bg-neon-badge"></span>
+<span class="font-label-sm text-label-sm text-on-surface">ON-COURT (5)</span>
+</div>
+<div class="pointer-events-auto flex items-center gap-1">
+<button class="h-7 px-2 rounded-lg bg-surface-container/90 backdrop-blur-md text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm flex items-center gap-1 shadow-sm" id="resetPinsBtn" type="button">
+<span class="material-symbols-outlined text-[14px]">my_location</span>
+<span>원위치</span>
+</button>
+</div>
+</div>
+<!-- Basketball Court SVG Graphic & Floor -->
+<div class="relative w-full aspect-[4/5] bg-gradient-to-b from-[#1c130c] via-[#22160d] to-[#120a05] select-none overflow-hidden">
+<!-- Parquet Grain Texture Layer (CSS Gradient Grid) -->
+<div class="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(#d97706_1px,transparent_1px)] [background-size:12px_12px]"></div>
+<!-- Court Boundary & Tactical Lines -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none stroke-[#f8fafc]/30" fill="none" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+<!-- Baseline & Sidelines -->
+<rect class="stroke-tactical-white/25" height="470" stroke-width="2.5" width="364" x="18" y="15"></rect>
+<!-- Half-court line & center circle (Top area representing half court boundary) -->
+<line class="stroke-tactical-white/20" stroke-dasharray="4 4" stroke-width="2" x1="18" x2="382" y1="50" y2="50"></line>
+<path class="stroke-tactical-white/20" d="M 170 50 A 30 30 0 0 0 230 50" stroke-width="2"></path>
+<!-- 3-Point Arc (Radius: ~180px from hoop) -->
+<path class="stroke-hardwood-amber/50" d="M 40 485 L 40 410 Q 40 180 200 180 Q 360 180 360 410 L 360 485" stroke-width="2.5"></path>
+<!-- Key / Paint Zone (Restricted Area) -->
+<rect class="fill-hardwood-amber/10 stroke-tactical-white/35" height="170" stroke-width="2" width="110" x="145" y="315"></rect>
+<!-- Free Throw Line & Circle -->
+<circle class="stroke-tactical-white/30" cx="200" cy="315" r="55" stroke-dasharray="6 4" stroke-width="2"></circle>
+<circle class="stroke-tactical-white/40" clip-path="url(#paint-clip)" cx="200" cy="315" r="55" stroke-width="2"></circle>
+<!-- Restricted Arc under basket -->
+<path class="stroke-tactical-white/40" d="M 180 460 A 20 20 0 0 1 220 460" stroke-width="1.8"></path>
+<!-- Backboard & Rim -->
+<rect class="opacity-80" fill="#f8fafc" height="4" width="50" x="175" y="470"></rect>
+<line stroke="#ea580c" stroke-width="2.5" x1="200" x2="200" y1="470" y2="463"></line>
+<circle cx="200" cy="458" fill="none" r="7" stroke="#ea580c" stroke-width="2.5"></circle>
+<!-- Lane Hash Marks -->
+<line class="stroke-tactical-white/40" stroke-width="2" x1="137" x2="145" y1="360" y2="360"></line>
+<line class="stroke-tactical-white/40" stroke-width="2" x1="137" x2="145" y1="400" y2="400"></line>
+<line class="stroke-tactical-white/40" stroke-width="2" x1="137" x2="145" y1="440" y2="440"></line>
+<line class="stroke-tactical-white/40" stroke-width="2" x1="255" x2="263" y1="360" y2="360"></line>
+<line class="stroke-tactical-white/40" stroke-width="2" x1="255" x2="263" y1="400" y2="400"></line>
+<line class="stroke-tactical-white/40" stroke-width="2" x1="255" x2="263" y1="440" y2="440"></line>
+</svg>
+<!-- Tactical Court Pins Container: relative w-full h-full -->
+<div class="relative w-full h-full z-10" id="courtPinsLayer">
+<!-- 1. PG 송태섭 (left: 50%, top: 22%) -->
+<div class="court-player-pin absolute flex flex-col items-center cursor-pointer transition-transform duration-200 active:scale-95 whitespace-nowrap" data-name="송태섭" data-num="7" data-pos="PG" data-stat="8.4 AST" data-task="탑 볼운반 &amp; 경기 템포 조율" style="top: 22%; left: 50%; transform: translate(-50%, -50%);">
+<div class="flex items-center bg-slate-surface text-tactical-white rounded-lg p-1 shadow-[0_8px_16px_rgba(0,0,0,0.6)] ring-1 ring-primary/40 hover:ring-primary whitespace-nowrap">
+<span class="w-6 h-6 rounded bg-primary text-on-primary font-stat-counter text-stat-counter flex items-center justify-center shrink-0">7</span>
+<div class="px-1.5 flex items-center gap-1">
+<span class="font-label-sm text-label-sm text-neon-badge">PG</span>
+<span class="font-headline-sm text-headline-sm text-tactical-white leading-none whitespace-nowrap">송태섭</span>
+</div>
+</div>
+<span class="mt-1 px-1.5 py-0.5 rounded bg-surface/90 text-on-surface-variant font-label-sm text-label-sm shadow-sm backdrop-blur-sm whitespace-nowrap">탑 볼운반</span>
+</div>
+<!-- 2. SG 정대만 (left: 22%, top: 38%) -->
+<div class="court-player-pin absolute flex flex-col items-center cursor-pointer transition-transform duration-200 active:scale-95 whitespace-nowrap" data-name="정대만" data-num="14" data-pos="SG" data-stat="3P 44%" data-task="좌측 윙 3점 스팟 &amp; 캐치앤슛" style="top: 38%; left: 22%; transform: translate(-50%, -50%);">
+<div class="flex items-center bg-slate-surface text-tactical-white rounded-lg p-1 shadow-[0_8px_16px_rgba(0,0,0,0.6)] ring-1 ring-hardwood-amber/50 hover:ring-hardwood-amber whitespace-nowrap">
+<span class="w-6 h-6 rounded bg-hardwood-amber text-tactical-white font-stat-counter text-stat-counter flex items-center justify-center shrink-0">14</span>
+<div class="px-1.5 flex items-center gap-1">
+<span class="font-label-sm text-label-sm text-hardwood-amber">SG</span>
+<span class="font-headline-sm text-headline-sm text-tactical-white leading-none whitespace-nowrap">정대만</span>
+</div>
+</div>
+<span class="mt-1 px-1.5 py-0.5 rounded bg-surface/90 text-on-surface-variant font-label-sm text-label-sm shadow-sm backdrop-blur-sm whitespace-nowrap">좌측 3P</span>
+</div>
+<!-- 3. SF 서태웅 (left: 78%, top: 38%) -->
+<div class="court-player-pin absolute flex flex-col items-center cursor-pointer transition-transform duration-200 active:scale-95 whitespace-nowrap" data-name="서태웅" data-num="11" data-pos="SF" data-stat="24.8 PTS" data-task="우측 윙 아이솔레이션 &amp; 미들 점퍼" style="top: 38%; left: 78%; transform: translate(-50%, -50%);">
+<div class="flex items-center bg-slate-surface text-tactical-white rounded-lg p-1 shadow-[0_8px_16px_rgba(0,0,0,0.6)] ring-1 ring-secondary/40 hover:ring-secondary whitespace-nowrap">
+<span class="w-6 h-6 rounded bg-secondary-container text-tactical-white font-stat-counter text-stat-counter flex items-center justify-center shrink-0">11</span>
+<div class="px-1.5 flex items-center gap-1">
+<span class="font-label-sm text-label-sm text-secondary">SF</span>
+<span class="font-headline-sm text-headline-sm text-tactical-white leading-none whitespace-nowrap">서태웅</span>
+</div>
+</div>
+<span class="mt-1 px-1.5 py-0.5 rounded bg-surface/90 text-on-surface-variant font-label-sm text-label-sm shadow-sm backdrop-blur-sm whitespace-nowrap">에이스 윙</span>
+</div>
+<!-- 4. PF 강백호 (left: 32%, top: 64%) -->
+<div class="court-player-pin absolute flex flex-col items-center cursor-pointer transition-transform duration-200 active:scale-95 whitespace-nowrap" data-name="강백호" data-num="10" data-pos="PF" data-stat="14.2 REB" data-task="로우포스트 공격 리바운드 &amp; 허슬" style="top: 64%; left: 32%; transform: translate(-50%, -50%);">
+<div class="flex items-center bg-slate-surface text-tactical-white rounded-lg p-1 shadow-[0_8px_16px_rgba(0,0,0,0.6)] ring-1 ring-clay-terracotta/50 hover:ring-clay-terracotta whitespace-nowrap">
+<span class="w-6 h-6 rounded bg-clay-terracotta text-tactical-white font-stat-counter text-stat-counter flex items-center justify-center shrink-0">10</span>
+<div class="px-1.5 flex items-center gap-1">
+<span class="font-label-sm text-label-sm text-clay-terracotta">PF</span>
+<span class="font-headline-sm text-headline-sm text-tactical-white leading-none whitespace-nowrap">강백호</span>
+</div>
+</div>
+<span class="mt-1 px-1.5 py-0.5 rounded bg-surface/90 text-on-surface-variant font-label-sm text-label-sm shadow-sm backdrop-blur-sm whitespace-nowrap">리바운더</span>
+</div>
+<!-- 5. C 채치수 (left: 50%, top: 75%) -->
+<div class="court-player-pin absolute flex flex-col items-center cursor-pointer transition-transform duration-200 active:scale-95 whitespace-nowrap" data-name="채치수" data-num="4" data-pos="C" data-stat="3.1 BLK" data-task="골밑 페인트존 장악 &amp; 고릴라 림프로텍트" style="top: 75%; left: 50%; transform: translate(-50%, -50%);">
+<div class="flex items-center bg-slate-surface text-tactical-white rounded-lg p-1 shadow-[0_8px_16px_rgba(0,0,0,0.6)] ring-1 ring-dh-yellow/50 hover:ring-dh-yellow whitespace-nowrap">
+<span class="w-6 h-6 rounded bg-dh-yellow text-surface-container-lowest font-stat-counter text-stat-counter flex items-center justify-center shrink-0">4</span>
+<div class="px-1.5 flex items-center gap-1">
+<span class="font-label-sm text-label-sm text-dh-yellow">C</span>
+<span class="font-headline-sm text-headline-sm text-tactical-white leading-none whitespace-nowrap">채치수</span>
+</div>
+</div>
+<span class="mt-1 px-1.5 py-0.5 rounded bg-surface/90 text-on-surface-variant font-label-sm text-label-sm shadow-sm backdrop-blur-sm whitespace-nowrap">림 프로텍터</span>
+</div>
+</div>
+<!-- Quick Action Toast Layer inside court -->
+<div class="absolute bottom-2.5 inset-x-2.5 z-20 bg-surface-container-high/95 backdrop-blur-md rounded-xl p-2.5 flex items-center justify-between shadow-lg transition-all duration-300 translate-y-0 opacity-100" id="selectionToast">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-7 h-7 rounded-lg bg-primary text-on-primary font-stat-counter text-stat-counter flex items-center justify-center shrink-0" id="activePinNumBadge">7</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-on-surface truncate" id="activePinName">송태섭 (PG)</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.2 rounded bg-surface-variant text-neon-badge shrink-0" id="activePinStat">8.4 AST</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate" id="activePinTask">탑 볼운반 &amp; 경기 템포 조율</span>
+</div>
+</div>
+<div class="flex items-center gap-1 shrink-0">
+<button class="px-2.5 py-1.5 rounded-lg bg-surface-variant text-primary font-label-sm text-label-sm hover:bg-primary hover:text-on-primary transition-colors flex items-center gap-1" id="substituteTriggerBtn" type="button">
+<span class="material-symbols-outlined text-[15px]">swap_vert</span>
+<span>교체</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Lineup Stats & Energy Metric Cards -->
+<section class="grid grid-cols-3 gap-2 w-full">
+<div class="bg-surface-container rounded-xl p-2.5 flex flex-col justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">팀 파울 현황</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-stat-counter text-stat-counter text-primary">2</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">/ 5회</span>
+</div>
+<div class="w-full bg-surface-container-low h-1 rounded-full mt-1.5 overflow-hidden">
+<div class="bg-primary h-full w-[40%]"></div>
+</div>
+</div>
+<div class="bg-surface-container rounded-xl p-2.5 flex flex-col justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">타임아웃 잔여</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-stat-counter text-stat-counter text-hardwood-amber">3</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">회 남음</span>
+</div>
+<div class="flex items-center gap-1 mt-1.5">
+<span class="w-2 h-2 rounded-full bg-hardwood-amber"></span>
+<span class="w-2 h-2 rounded-full bg-hardwood-amber"></span>
+<span class="w-2 h-2 rounded-full bg-hardwood-amber"></span>
+</div>
+</div>
+<div class="bg-surface-container rounded-xl p-2.5 flex flex-col justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">선발 평균 신장</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-stat-counter text-stat-counter text-tactical-white">186.2</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">cm</span>
+</div>
+<span class="font-label-sm text-label-sm text-neon-badge mt-1.5 truncate">제공권 우위</span>
+</div>
+</section>
+<!-- Bench Squad & Instant Substitution Section -->
+<section class="w-full bg-surface-container rounded-xl p-3 shadow-md space-y-2.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">airline_seat_recline_normal</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">벤치 대기 명단</h3>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm">4명</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">원터치 교체 투입</span>
+</div>
+<!-- Bench Cards Horizontal Scroll / Grid -->
+<div class="grid grid-cols-2 gap-2" id="benchContainer">
+<!-- Bench 1: 권준호 (식스맨) -->
+<div class="bench-item-card bg-surface-container-high rounded-xl p-2.5 flex items-center justify-between hover:bg-surface-variant transition-colors cursor-pointer group" data-name="권준호" data-num="5" data-pos="SG/SF" data-stat="3P 38%" data-task="외곽 클러치 슛 &amp; 안정적 템포">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-7 h-7 rounded-lg bg-surface-container-lowest text-tactical-white font-stat-counter text-stat-counter flex items-center justify-center shrink-0">5</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-body-md text-body-md text-on-surface truncate">권준호</span>
+<span class="font-label-sm text-label-sm text-hardwood-amber shrink-0">6th</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">SG/SF · 38% 3P</span>
+</div>
+</div>
+<button class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors shrink-0" type="button">
+<span class="material-symbols-outlined text-[16px]">swap_horiz</span>
+</button>
+</div>
+<!-- Bench 2: 이달재 -->
+<div class="bench-item-card bg-surface-container-high rounded-xl p-2.5 flex items-center justify-between hover:bg-surface-variant transition-colors cursor-pointer group" data-name="이달재" data-num="6" data-pos="PG" data-stat="3.2 AST" data-task="안정적인 패스 공급 &amp; 볼 핸들링">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-7 h-7 rounded-lg bg-surface-container-lowest text-tactical-white font-stat-counter text-stat-counter flex items-center justify-center shrink-0">6</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-body-md text-body-md text-on-surface truncate">이달재</span>
+<span class="font-label-sm text-label-sm text-secondary shrink-0">PG</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">PG · 3.2 AST</span>
+</div>
+</div>
+<button class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors shrink-0" type="button">
+<span class="material-symbols-outlined text-[16px]">swap_horiz</span>
+</button>
+</div>
+<!-- Bench 3: 신오일 -->
+<div class="bench-item-card bg-surface-container-high rounded-xl p-2.5 flex items-center justify-between hover:bg-surface-variant transition-colors cursor-pointer group" data-name="신오일" data-num="8" data-pos="SF" data-stat="1.2 STL" data-task="수비 스위치 &amp; 코너 디펜스">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-7 h-7 rounded-lg bg-surface-container-lowest text-tactical-white font-stat-counter text-stat-counter flex items-center justify-center shrink-0">8</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-body-md text-body-md text-on-surface truncate">신오일</span>
+<span class="font-label-sm text-label-sm text-secondary shrink-0">SF</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">SF · 1.2 STL</span>
+</div>
+</div>
+<button class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors shrink-0" type="button">
+<span class="material-symbols-outlined text-[16px]">swap_horiz</span>
+</button>
+</div>
+<!-- Bench 4: 정병욱 -->
+<div class="bench-item-card bg-surface-container-high rounded-xl p-2.5 flex items-center justify-between hover:bg-surface-variant transition-colors cursor-pointer group" data-name="정병욱" data-num="9" data-pos="C" data-stat="4.8 REB" data-task="백업 빅맨 &amp; 파울 트러블 방어">
+<div class="flex items-center gap-2 min-w-0">
+<span class="w-7 h-7 rounded-lg bg-surface-container-lowest text-tactical-white font-stat-counter text-stat-counter flex items-center justify-center shrink-0">9</span>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-body-md text-body-md text-on-surface truncate">정병욱</span>
+<span class="font-label-sm text-label-sm text-dh-yellow shrink-0">C</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant truncate">C · 4.8 REB</span>
+</div>
+</div>
+<button class="w-7 h-7 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors shrink-0" type="button">
+<span class="material-symbols-outlined text-[16px]">swap_horiz</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Tactical Matchup & Strategy Memo Note -->
+<section class="w-full bg-surface-container rounded-xl p-3 shadow-md space-y-2" id="strategyDrawer">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-hardwood-amber">sports</span>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">작전 브리핑 &amp; 매치업 체크</h4>
+</div>
+<span class="font-label-sm text-label-sm text-primary">공수 전략 설정됨</span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest text-on-surface-variant font-body-sm text-body-sm space-y-1.5 leading-relaxed">
+<p class="flex items-start gap-1.5">
+<span class="text-hardwood-amber font-label-md text-label-md shrink-0">[공격]</span>
+<span>송태섭의 탑 핸들링 후 정대만 오프더볼 스크린 활용, 서태웅 1:1 아이솔 분배.</span>
+</p>
+<p class="flex items-start gap-1.5">
+<span class="text-primary font-label-md text-label-md shrink-0">[수비]</span>
+<span>상대 3점 슈터에게 적극적 스위치, 강백호-채치수 더블포스트 골밑 리바운드 사수.</span>
+</p>
+</div>
+</section>
+<!-- Sticky Tactical Actions Footer (Dual CTA) -->
+<div class="sticky bottom-0 z-30 pt-2 pb-1 bg-gradient-to-t from-surface via-surface/95 to-transparent">
+<div class="flex items-center gap-2">
+<!-- Quick Share / Text Copy -->
+<button class="flex-1 h-12 rounded-xl bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-lg text-label-lg flex items-center justify-center gap-1.5 shadow-md active:scale-98 transition-all" id="copyLineupBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+<span>단톡방 텍스트 복사</span>
+</button>
+<!-- Primary Export Graphic Image CTA -->
+<button class="flex-1 h-12 rounded-xl bg-gradient-to-r from-primary-container to-pitch-turf hover:from-primary hover:to-pitch-green text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-1.5 shadow-lg active:scale-98 transition-all" id="exportImageBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">download</span>
+<span>라인업 이미지 저장</span>
+</button>
+</div>
+</div>
+<!-- Notification Banner Modal / Popup for Feedback -->
+<div class="fixed top-20 inset-x-4 z-50 pointer-events-none transform transition-all duration-300 flex items-center justify-center -translate-y-6 opacity-0" id="actionFeedbackToast">
+<div class="px-4 py-2.5 rounded-xl bg-slate-surface text-tactical-white font-body-sm text-body-sm flex items-center gap-2 shadow-2xl">
+<span class="material-symbols-outlined text-primary text-[20px]">check_circle</span>
+<span id="feedbackMessage">고화질 전술보드 PNG 생성 중... 저장 완료!</span>
+</div>
+</div>
+</div>
+</main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-4px_20px_rgba(0,0,0,0.5)]" data-active-classes="bg-primary text-on-primary font-bold shadow-md"><div class="flex items-center justify-between gap-space-sm h-20 px-margin-mobile"><a class="flex-1 h-11 flex items-center justify-center gap-1.5 rounded-xl bg-slate-surface text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-all" data-path="baseball-lineup" href="./index.html"><span class="text-base leading-none">⚾</span><span>야구</span></a><a class="flex-1 h-11 flex items-center justify-center gap-1.5 rounded-xl bg-slate-surface text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-all" data-path="soccer-lineup" href="./soccer.html"><span class="text-base leading-none">⚽</span><span>축구</span></a><a aria-current="page" class="flex-1 h-11 flex items-center justify-center gap-1.5 rounded-xl transition-all bg-primary text-on-primary font-bold shadow-md" data-path="basketball-lineup" href="./basketball.html"><span class="text-base leading-none">🏀</span><span>농구</span></a><a aria-label="선수단 관리" class="w-11 h-11 flex items-center justify-center rounded-xl bg-slate-surface text-on-surface-variant hover:text-on-surface transition-colors" data-path="roster-management" href="./roster.html"><span class="material-symbols-outlined text-[20px]">groups</span></a></div></nav>
+
+
+</body></html>

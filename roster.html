@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="ko"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><title>Fieldline | 선수단 관리</title><link rel="stylesheet" href="./roster.css"><link rel="stylesheet" href="./fieldline.css"><script src="./fieldline.js" defer></script></head><body data-sport="roster" class="bg-surface text-on-surface">
+<header class="fixed inset-x-0 top-0 z-50 bg-surface/95"><div class="mx-auto max-w-lg px-4 py-4 font-bold">Fieldline</div></header>
+<main class="mx-auto max-w-lg px-4 pt-20 pb-28">
+<h1 class="text-2xl font-bold">선수단 관리</h1>
+<form id="roster-form" class="fieldline-card">
+<label>종목<select name="sport"><option value="baseball">야구</option><option value="soccer">축구</option><option value="basketball">농구</option></select></label>
+<label>선수 이름<input name="name" required maxlength="24" autocomplete="off"></label>
+<label>등번호<input name="number" type="number" min="0" max="999" value="0" required></label>
+<button type="submit">선수 추가</button>
+</form>
+<section class="fieldline-card"><h2 class="font-bold">등록 선수</h2><ul id="roster-list"></ul></section>
+</main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-4px_20px_rgba(0,0,0,0.5)] border-t border-slate-border/40" data-active-classes="bg-primary text-on-primary font-bold shadow-md">
+<div class="flex items-center justify-between gap-space-sm h-20 px-margin-mobile">
+<a class="flex-1 h-11 flex items-center justify-center gap-1.5 rounded-xl transition-all bg-slate-surface text-on-surface-variant" data-path="baseball-lineup" href="./index.html">
+<span class="text-base leading-none">⚾</span>
+<span>야구</span>
+</a>
+<a class="flex-1 h-11 flex items-center justify-center gap-1.5 rounded-xl bg-slate-surface text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-all" data-path="soccer-lineup" href="./soccer.html">
+<span class="text-base leading-none">⚽</span>
+<span>축구</span>
+</a>
+<a class="flex-1 h-11 flex items-center justify-center gap-1.5 rounded-xl bg-slate-surface text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-all" data-path="basketball-lineup" href="./basketball.html">
+<span class="text-base leading-none">🏀</span>
+<span>농구</span>
+</a>
+<a aria-label="선수단 관리" aria-current="page" class="w-11 h-11 flex items-center justify-center rounded-xl bg-primary text-on-primary transition-colors" data-path="roster-management" href="./roster.html">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+</a>
+</div>
+</nav></body></html>
